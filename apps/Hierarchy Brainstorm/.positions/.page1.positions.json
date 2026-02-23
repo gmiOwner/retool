@@ -1,0 +1,113 @@
+{
+  "collapsibleContainer1": {
+    "container": "listView1",
+    "col": 1,
+    "height": 0.2,
+    "width": 11,
+    "stackPosition": {
+      "object": {
+        "ordinal": 0,
+        "widthType": "fixed",
+        "width": 0,
+        "height": 0
+      }
+    }
+  },
+  "collapsibleContainer2": {
+    "container": "listView2",
+    "col": 1,
+    "height": 0.2,
+    "width": 11,
+    "stackPosition": {
+      "object": {
+        "ordinal": 0,
+        "widthType": "fixed",
+        "width": 0,
+        "height": 0
+      }
+    }
+  },
+  "collapsibleTitle1": {
+    "container": "collapsibleContainer1",
+    "rowGroup": "header",
+    "subcontainer": "00030",
+    "col": 2,
+    "height": 0.8,
+    "width": 10
+  },
+  "collapsibleTitle2": {
+    "container": "collapsibleContainer2",
+    "rowGroup": "header",
+    "subcontainer": "00030",
+    "col": 2,
+    "height": 0.8,
+    "width": 10
+  },
+  "collapsibleToggle1": {
+    "container": "collapsibleContainer1",
+    "rowGroup": "header",
+    "subcontainer": "00030",
+    "height": 0.8,
+    "width": 2
+  },
+  "collapsibleToggle2": {
+    "container": "collapsibleContainer2",
+    "rowGroup": "header",
+    "subcontainer": "00030",
+    "height": 0.8,
+    "width": 2
+  },
+  "listView1": {
+    "container": "table2",
+    "height": 1,
+    "width": 12,
+    "stackPosition": {
+      "object": {
+        "ordinal": 0,
+        "widthType": "fixed",
+        "width": 0,
+        "height": 0
+      }
+    }
+  },
+  "listView2": {
+    "container": "collapsibleContainer1",
+    "subcontainer": "00030",
+    "height": 1,
+    "width": 12,
+    "stackPosition": {
+      "object": {
+        "ordinal": 0,
+        "widthType": "fixed",
+        "width": 0,
+        "height": 0
+      }
+    }
+  },
+  "navigation1": {
+    "container": "collapsibleContainer2",
+    "subcontainer": "00030",
+    "col": 2,
+    "height": 1,
+    "width": 10,
+    "stackPosition": {
+      "object": {
+        "ordinal": 0,
+        "widthType": "fixed",
+        "width": 0,
+        "height": 0
+      }
+    }
+  },
+  "table1": {
+    "row": 1,
+    "height": 17.4,
+    "width": 7
+  },
+  "table2": {
+    "row": 1,
+    "col": 7,
+    "height": 9.8,
+    "width": 5
+  }
+}
