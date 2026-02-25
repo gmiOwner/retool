@@ -1,2 +1,5 @@
 version: 1.0.0
 name: staging
+apps:
+  - uuid: 0dc7be62-ff04-11f0-bd6b-57f4a723ae03
+    release: 0.1.0
