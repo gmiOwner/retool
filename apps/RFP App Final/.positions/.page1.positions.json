@@ -11,6 +11,12 @@
     "col": 6,
     "height": 1
   },
+  "button5": {
+    "row": 0.8,
+    "col": 11,
+    "height": 1,
+    "width": 1
+  },
   "drawerCloseButton2": {
     "rowGroup": "header",
     "subcontainer": "drawerFrame1",
@@ -29,7 +35,7 @@
     "width": 12
   },
   "table1": {
-    "row": 1.4,
+    "row": 1.8,
     "height": 18,
     "width": 12
   },
