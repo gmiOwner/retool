@@ -85,6 +85,7 @@
       value="#### Review RFPs and Contracts"
       verticalAlign="center"
     />
+    <Button id="button5" iconBefore="bold/interface-add-1" text="Add" />
     <Table
       id="table1"
       cellSelection="none"
