@@ -1,0 +1,575 @@
+<Screen
+  id="ideation"
+  _customShortcuts={[]}
+  _hashParams={[]}
+  _order={1}
+  _searchParams={[]}
+  browserTitle={null}
+  title={null}
+  urlSlug={null}
+  uuid="16f61979-33eb-444f-bb13-a61b46bdb5f8"
+>
+  <RetoolStorageQuery
+    id="get_files"
+    folderName="{{ url.searchParams.id }}"
+    resourceDisplayName="retool_storage"
+    resourceName="retool_storage"
+    selectFolderNameBy="programmatic"
+  />
+  <RetoolStorageQuery
+    id="upload_file"
+    actionType="upload"
+    dataSource={["fileDropzone1"]}
+    enableTransformer={true}
+    folderName="{{ url.searchParams.id }}"
+    resourceDisplayName="retool_storage"
+    resourceName="retool_storage"
+    runWhenModelUpdates={false}
+    selectFolderNameBy="programmatic"
+  >
+    <Event
+      id="458a1011"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="get_files"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolStorageQuery>
+  <RetoolStorageQuery
+    id="delete_file"
+    actionType="delete"
+    dynamicFileId={true}
+    fileId="{{ listView1.data[i].id }}"
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    resourceDisplayName="retool_storage"
+    resourceName="retool_storage"
+    runWhenModelUpdates={false}
+    showSuccessToaster={false}
+  >
+    <Event
+      id="17740e34"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="get_files"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolStorageQuery>
+  <SqlQueryUnified
+    id="set_stage"
+    actionType="UPDATE_BY"
+    changeset={
+      '[{"key":"current_stage","value":"{{ steppedContainer1.currentViewKey }}"}]'
+    }
+    editorMode="gui"
+    filterBy={
+      '[{"key":"id","value":"{{ url.searchParams.id }}","operation":"="}]'
+    }
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    tableName="ideation_project_list"
+  />
+  <SqlQueryUnified
+    id="get_project"
+    isMultiplayerEdited={false}
+    query={include("../lib/get_project.sql", "string")}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    warningCodes={[]}
+  >
+    <Event
+      id="a15dc5a5"
+      event="success"
+      method="setCurrentView"
+      params={{ map: { viewKey: "{{ get_project.data.current_stage[0] }}" } }}
+      pluginId="steppedContainer1"
+      type="widget"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <SqlQueryUnified
+    id="get_reframe"
+    isMultiplayerEdited={false}
+    query={include("../lib/get_reframe.sql", "string")}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    warningCodes={[]}
+  >
+    <Event
+      id="4ec3d12d"
+      event="success"
+      method="setValue"
+      params={{
+        map: { value: "{{ JSON.parse(self.data.reframed_text_array[0]) }}" },
+      }}
+      pluginId="problem_statements"
+      type="state"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <RetoolAIQuery
+    id="generate_reframe"
+    customSystemMessage={
+      'You are an expert innovation facilitator helping teams reframe problem statements to unlock creative thinking.\n\nYour task is to generate exactly 5 distinct reframed versions of a given problem statement.\n\nGoals for each reframe:\n\n- Preserve the core intent of the original problem\n- Explore a different angle, lens, or framing\n- Encourage open-ended ideation\n- Avoid repeating wording or structure\n- Keep language clear, concise, and actionable\n- Do NOT introduce unrelated goals\n- Do NOT solve the problem — only reframe it\n\nReframe styles to vary across the 5 outputs may include:\n\n• opportunity framing  \n• user-centered framing  \n• constraint-based framing  \n• outcome-focused framing  \n• exploration or transformation framing  \n\nOutput requirements:\n\n- Return ONLY a valid JSON array\n- Exactly 5 strings\n- No markdown\n- No explanation\n- No numbering\n- No extra text\n\nExample output format:\n\n[\n  "How might we …?",\n  "In what ways could we …?",\n  "What would it take to …?",\n  "How could we reimagine …?",\n  "How might we enable …?"\n]\n\nWait for the user’s problem statement and then generate the reframes.'
+    }
+    customTemperature="0.5"
+    defaultModelInitialized={true}
+    instruction="{{ textArea1.value }}"
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+  >
+    <Event
+      id="df465de1"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="update_reframe"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <SqlQueryUnified
+    id="update_reframe"
+    actionType="UPDATE_BY"
+    changeset={
+      '[{"key":"reframed_text_array","value":"{{ generate_reframe2.data.reframes }}"},{"key":"original_text","value":"{{ textArea1.value }}"}]'
+    }
+    editorMode="gui"
+    filterBy={
+      '[{"key":"project_id","value":"{{ url.searchParams.id }}","operation":"="}]'
+    }
+    isMultiplayerEdited={false}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    tableName="ideation_problem_reframes"
+  >
+    <Event
+      id="de712eab"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="get_reframe"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <SqlQueryUnified
+    id="create_reframe"
+    notificationDuration={4.5}
+    query={include("../lib/create_reframe.sql", "string")}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    showSuccessToaster={false}
+    showUpdateSetValueDynamicallyToggle={false}
+    updateSetValueDynamically={true}
+    warningCodes={[]}
+  />
+  <RetoolAIQuery
+    id="generate_ideas"
+    customSystemMessage={
+      'You are an expert ideation facilitator.\n\nGenerate 40 distinct, creative, actionable ideas in response to the given reframed problem statement.\n\nRules:\n- Each idea must be unique\n- Avoid repetition\n- Keep ideas concise (1–2 sentences)\n- Vary approaches, stakeholders, and implementation styles\n- Do not explain — output only JSON\n\nReturn format:\n[\n  "idea 1",\n  "idea 2",\n  ...\n]'
+    }
+    customTemperature="0.1"
+    defaultModelInitialized={true}
+    instruction="{{ selected_reframe.value }} {{ selected_reframe.value.success_criteria }}"
+    isMultiplayerEdited={false}
+    model="gpt-5.2"
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+  >
+    <Event
+      id="2ababdb4"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="Chao1"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <RetoolAIQuery
+    id="Chao1"
+    customSystemMessage={
+      'You are a data analyst for an ideation tool.\n\nYou will be given an array of 40 idea strings. Your job is to estimate how “explored” the idea space is using a Chao1-style richness estimate.\n\nProcess:\n1) Normalize ideas mentally (ignore punctuation/case).\n2) Group ideas into “concept clusters” based on meaning. Two ideas belong in the same cluster if they are essentially the same concept with minor wording differences.\n3) Let:\n   - S_obs = number of clusters (observed unique concepts)\n   - f1 = number of clusters that contain exactly 1 idea (singletons)\n   - f2 = number of clusters that contain exactly 2 ideas (doubletons)\n4) Compute the Chao1 richness estimate:\n   - If f2 > 0: S_chao1 = S_obs + (f1^2) / (2*f2)\n   - If f2 = 0: S_chao1 = S_obs + (f1*(f1-1))/2\n5) Compute exploration_progress_percent = round(100 * S_obs / S_chao1, 1)\n\nAlso compute idea_space_status using:\n- "Active" if exploration_progress_percent < 35\n- "Expanding" if 35 <= exploration_progress_percent < 70\n- "Saturated" if exploration_progress_percent >= 70\n\nOutput requirements:\n- Return ONLY valid JSON\n- No markdown, no extra text\n- Use the exact keys shown below\n\nReturn JSON with this shape:\n{\n  "S_obs": <number>,\n  "f1": <number>,\n  "f2": <number>,\n  "S_chao1": <number>,\n  "exploration_progress_percent": <number>,\n  "idea_space_status": "<Active|Expanding|Saturated>",\n  "clusters": [\n    { "cluster_label": "<short label>", "idea_indexes": [<0-based indexes>] }\n  ]\n}\n\nNotes:\n- Provide 6–12 clusters maximum in the output by merging very small/overly granular clusters; prioritize clarity.\n- The clusters array must reference the provided ideas by their 0-based index positions.\n'
+    }
+    customTemperature="{{ slider2.value / 100 }}"
+    defaultModelInitialized={true}
+    enableTransformer={true}
+    instruction="{{ generate_ideas.data }}"
+    isMultiplayerEdited={false}
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+    transformer="return JSON.parse(data)"
+  >
+    <Event
+      id="c505d94a"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="update_ideas"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <SqlQueryUnified
+    id="create_ideas"
+    notificationDuration={4.5}
+    query={include("../lib/create_ideas.sql", "string")}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    showSuccessToaster={false}
+    showUpdateSetValueDynamicallyToggle={false}
+    updateSetValueDynamically={true}
+    warningCodes={[]}
+  />
+  <SqlQueryUnified
+    id="get_ideas"
+    query={include("../lib/get_ideas.sql", "string")}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    warningCodes={[]}
+  >
+    <Event
+      id="41cf75dd"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="UMAP"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+    <Event
+      id="54c0da09"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="join_ideas"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <SqlQueryUnified
+    id="update_ideas"
+    actionType="UPDATE_BY"
+    changeset={
+      '[{"key":"idea_space_status","value":"{{ Chao1.data.idea_space_status }}"},{"key":"problem_statement","value":"{{ text23.value }}"},{"key":"ideas_generated","value":"{{ JSON.parse(generate_ideas.data).length - 1}}"},{"key":"cluster_json","value":"{{ Chao1.data.clusters }}"},{"key":"exploration_progress_percent","value":"{{ Chao1.data.exploration_progress_percent }}"},{"key":"ideas_array","value":"{{ generate_ideas.data }}"}]'
+    }
+    editorMode="gui"
+    filterBy={
+      '[{"key":"project_id","value":"{{ url.searchParams.id }}","operation":"="}]'
+    }
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    tableName="ideation_ideas"
+  >
+    <Event
+      id="1d128688"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="get_ideas"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <JavascriptQuery
+    id="join_ideas"
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    query={include("../lib/join_ideas.js", "string")}
+    resourceName="JavascriptQuery"
+    showSuccessToaster={false}
+  >
+    <Event
+      id="7ce37fe4"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="join_ideas2"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </JavascriptQuery>
+  <JavascriptQuery
+    id="UMAP"
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    query={include("../lib/UMAP.js", "string")}
+    resourceName="JavascriptQuery"
+    showSuccessToaster={false}
+  />
+  <JavascriptQuery
+    id="join_ideas2"
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    query={include("../lib/join_ideas2.js", "string")}
+    resourceName="JavascriptQuery"
+    showSuccessToaster={false}
+  />
+  <JavascriptQuery
+    id="selected_ideas"
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    query={include("../lib/selected_ideas.js", "string")}
+    resourceName="JavascriptQuery"
+    showSuccessToaster={false}
+  >
+    <Event
+      id="754d0ea8"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="update_ideas2"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </JavascriptQuery>
+  <SqlQueryUnified
+    id="update_ideas2"
+    actionType="UPDATE_BY"
+    changeset={'[{"key":"selected_ideas","value":"{{ selected_ideas.data }}"}]'}
+    editorMode="gui"
+    filterBy={
+      '[{"key":"project_id","value":"{{ url.searchParams.id }}","operation":"="}]'
+    }
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    tableName="ideation_ideas"
+  />
+  <RetoolAIQuery
+    id="generate_reframe2"
+    customSystemMessage={
+      'You are an expert innovation facilitator trained in design thinking, behavioral psychology, systems thinking, and growth strategy.\n\nYour job is to help a team reframe problem statements to unlock stronger, more creative, and more strategic ideas.\n\nINSTRUCTIONS\nWhen a user submits a problem statement, follow this process:\n\nGenerate Multiple Reframes\nProvide at least 5 different reframing lenses, from the following categories:\n\nA. Perspective Shifts\n - User-centric reframe\n - Opposite assumption reframe\n - Beginner’s mindset reframe\n - Future-state reframe (3–5 years ahead)\n\nB. Scope Shifts\n - Zoom in (micro problem)\n - Zoom out (system-level problem)\n - Adjacent opportunity reframe\n - Constraint-based reframe\n\nC. Strategic Reframes\n - Value proposition shift\n - Emotional vs functional shift\n - Behavioral incentive reframe\n - Competitive differentiation reframe\n\nEach reframe should:\n - Be written as a new problem statement\n - Challenge the original framing\n - Open a new direction for ideation\n\nEach reframe should output:\n - Who is affected?\n - What outcome is currently failing?\n - What assumptions may be embedded?\n - What new opportunity it unlocks\n - Risk level (Low / Medium / High)\n - Innovation level (Incremental / Transformational)\n - Success criteria\n\n\noutput this list into a structured json format:\n{\n"original_statement": "<string>",\n"reframes": [\n{\n"id": <number>\n"problem_statement": "<string>",\n"category": "<string>",\n"innovation_level": "<string>",\n"lens": "<string>",\n"who_is_affected": "<string>",\n"new_opportunity_unlocked": "<string>",\n"outcome_is_failing": "<string>",\n"risk_level": "<Low|Medium|High>",\n"embedded_assumptions": [],\n"success_criteria": []\n}\n...\n]\n}'
+    }
+    customTemperature="0.5"
+    defaultModelInitialized={true}
+    enableTransformer={true}
+    instruction="Original Statement: {{ textArea1.value }}
+Additional Context: {{ extract_text.data }}"
+    isMultiplayerEdited={false}
+    model="gpt-5-mini"
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+    transformer={
+      'const rawOutput = data\nconst cleaned = rawOutput\n  .replace(/^```json\\s*/, "")\n  .replace(/```$/, "")\n  .trim();\n\n// Parse into actual JSON object\nconst parsedJson = JSON.parse(cleaned);\n\nreturn parsedJson'
+    }
+  >
+    <Event
+      id="df465de1"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="update_reframe"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+    <Event
+      id="195d61e0"
+      event="success"
+      method="setValue"
+      params={{ map: { value: "{{ self.data }}" } }}
+      pluginId="problem_statements"
+      type="state"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <WorkflowRun
+    id="extract_text"
+    notificationDuration={4.5}
+    resourceName="WorkflowRun"
+    showSuccessToaster={false}
+    workflowId="32c3311f-cbf3-4344-b7d5-026ed93bb52e"
+    workflowParams={include("../lib/extract_text.json", "string")}
+  />
+  <State id="selected_reframe" />
+  <State id="problem_statements" />
+  <RetoolAIQuery
+    id="generate_pushed"
+    customSystemMessage={
+      'You are a General Mills expert innovation facilitator generating structured idea variants using creative push strategies.\n\nYour task is to transform selected original ideas into creative variants using a specified push strategy.\n\nYou MUST follow these rules:\n\nAlways return valid JSON.\n\nDo NOT include explanations, markdown, commentary, or extra text.\n\nReturn a single JSON object with this exact structure:\n\n{\n"variants": [\n{\n"source_idea_index": number,\n"variant_text": string,\n"strategy_used": string,\n"push_rationale": string\n}\n]\n}\n\nGenerate exactly 2 variants per input idea.\n\nEach variant must:\n\nBe concrete and actionable.\n\nPreserve the core intent of the original idea.\n\nClearly reflect the push strategy.\n\nBe 1–3 sentences max.\n\n"strategy_used" must exactly match the provided strategy name.\n\n"push_rationale" should briefly explain how the strategy altered the idea (1 sentence).\n\nPush Strategy Definitions\n\nYou must apply the strategy strictly as defined:\n\nadd_constraints\n\nIntentionally introduce meaningful limitations (budget, time, audience, technology, geography, scale, etc.) to increase focus and creativity.\n\nremove_constraints\n\nRemove assumed limitations (budget caps, approval gates, legacy systems, time limits, traditional channels, etc.) to explore expansive possibilities.\n\npersona_based\n\nReimagine the idea specifically for a clearly defined persona. The persona will be provided. Tailor tone, delivery, and value proposition to that persona.\n\nfocus_on_goals\n\nReframe the idea around a specific measurable outcome or user goal. Optimize the idea toward that outcome explicitly.\n\nInput You Will Receive\n\nYou will receive:\n\npush_strategy: string\n\nstrategy_parameters: object (may include constraints, persona, goals, etc.)\n\nselected_ideas: array of objects:\n[\n{ "index": number, "text": string }\n]\n\nOutput Requirements\n\nGenerate variants for each idea independently.\n\nDo NOT merge ideas.\n\nMaintain correct source_idea_index for each variant.\n\nOrder variants grouped by source_idea_index.\n\nQuality Requirements\n\nVariants must:\n\nBe meaningfully different from the original.\n\nAvoid superficial wording changes.\n\nDemonstrate a real shift caused by the push strategy.\n\nBe realistic but creatively stretched.'
+    }
+    customTemperature="0.8"
+    defaultModelInitialized={true}
+    instruction="push_strategy: {{ listbox2.selectedItem.value }}
+selected_ideas: {{ multiselectListbox1.selectedItems }}"
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+  >
+    <Event
+      id="440d0f2a"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="update_pushed"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <SqlQueryUnified
+    id="update_pushed"
+    actionType="UPDATE_BY"
+    changeset={
+      '[{"key":"pushed_ideas","value":"{{ JSON.parse(generate_pushed.data) }}"}]'
+    }
+    editorMode="gui"
+    filterBy={
+      '[{"key":"project_id","value":"{{ url.searchParams.id }}","operation":"="}]'
+    }
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    showSuccessToaster={false}
+    showUpdateSetValueDynamicallyToggle={false}
+    tableName="ideation_ideas"
+    updateSetValueDynamically={true}
+  >
+    <Event
+      id="2e9b0aaa"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="get_ideas"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <RetoolAIQuery
+    id="generate_prototype"
+    customSystemMessage={
+      'You are a senior product designer and front-end engineer working for General Mills.\n\nYour task is to generate a realistic consumer marketing landing page prototype (HTML + CSS) for a new product, initiative, or consumer experience concept based on selected innovation ideas. Then you must score how well the generated page matches the stated goal/problem.\n\nBRAND CONTEXT (Cheerios Assets Available)\n\nYou may use the following official hosted image assets directly in <img> tags:\n\nCheerios Logo:\nhttps://www.generalmills.com/-/media/project/gmi/corporate/corporate-master/images/logos/brands/cheerios-logo-sept-21.png?h=690&iar=0&w=2497&rev=aaa182be492d4ae49ed22145d801c4a2&hash=AEC830424C23FB8080444D037CDABCA4\n\nCheerios Box:\nhttps://mojo.generalmills.com/api/public/content/7u7JjQVsTKavzAn-SfX_lg_04c57eea-66a2-45cd-a3f2-ecd27146a451_04c57eea-66a2-45cd-a3f2-ecd27146a451.png?v=be1655de&t=04c57eea66a245cda3f2ecd27146a451\n\nCheerios Bowl:\nhttps://www.nestle-cereals.com/sg/sites/g/files/qirczx1011/files/styles/1_1_768px_width/public/2022-06/201123_Cheerios_Bowl_Purple_Topview_HD_RGB.png.webp?h=f82f101c&itok=0rcQipPG\n\nYou are encouraged to use:\n\nLogo in navigation\n\nBox or bowl image in hero\n\nProduct imagery in feature sections\n\nDecorative layout framing around product\n\nIf brand is Cheerios:\n\nUse warm honey yellow, oat neutrals, and friendly blue accents.\n\nInclude a subtle ring/oat background pattern (CSS or SVG).\n\nEmphasize heart-health, family trust, whole grains.\n\nTHIS MUST LOOK LIKE A REAL CPG LANDING PAGE\n\nThe design must include:\n\nLayout\n\nTop navigation with logo + links\n\nHero section with split layout:\n\nLeft: headline + subhead + 2 CTAs\n\nRight: product image (box or bowl)\n\nFeature grid with icons or imagery\n\nSocial proof section (ratings + testimonials)\n\nQuality / nutrition / sourcing section\n\nCTA banner section with bold background\n\nFAQ section styled as accordion\n\nFooter with multiple columns\n\nVisual Requirements\n\nModern typography hierarchy\n\nGenerous section padding\n\nShadows, gradients, elevated cards\n\nRounded corners\n\nBranded button styles\n\nHover states\n\nResponsive grid\n\nDecorative section dividers\n\nBackground texture (subtle oat ring motif)\n\nThe page must not:\n\nLook like a text document\n\nBe centered text blocks only\n\nBe flat white with minimal styling\n\nINPUTS\n\nreframed_problem (string)\n\nOUTPUT FORMAT (STRICT JSON ONLY)\n\nReturn ONLY a valid JSON object:\n\n{\n"goal_match_score": number,\n"goal_match_rationale": string,\n"brand_inference": {\n"inferred_brand": string,\n"brand_personality": string,\n"color_tokens": {\n"primary": string,\n"secondary": string,\n"accent": string,\n"background": string,\n"surface": string,\n"text": string\n}\n},\n"key_components": {\n"hero": { "headline": string, "subheadline": string, "primary_cta": string },\n"features": [ { "title": string, "description": string, "mapped_idea": string } ],\n"trust_signals": [string],\n"sustainability_or_quality": [string],\n"faq": [ { "q": string, "a": string } ],\n"secondary_ctas": [string]\n},\n"html": string,\n"css": string\n}\n\nHTML RULES\n\nUse semantic sections\n\nUse real <img> tags for provided assets\n\nFill out the page with marketing content related to the problem statement. Get creative with the content as this is for marketing.\n\n\nCSS RULES\n\nPlain CSS only (no <style> wrapper)\n\nUse CSS variables at top\n\nMust style:\n\nnav\n\nhero split layout\n\nimage styling\n\nfeature cards\n\ntestimonials\n\nCTA banner\n\nFAQ\n\nfooter\n\nresponsive breakpoints\n\nMust include hover + focus states\n\nMust include at least one gradient background\n\nMust include background texture (oat/ring pattern)\n\nCSS must be substantial and production-quality (~150+ lines).\n\nSCORING\n\n0–100 score\n\nAbove 85 only if tightly aligned to reframed_problem and success_criteria\n\nGeneric page must score < 70\n\nReturn valid JSON only.'
+    }
+    customTemperature="0.9"
+    defaultModelInitialized={true}
+    instruction="reframed_problem: {{ listbox4.selectedItem.variants.variant_text }}"
+    isMultiplayerEdited={false}
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+  >
+    <Event
+      id="5a44a4fd"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="update_prototype"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <SqlQueryUnified
+    id="update_prototype"
+    actionType="UPDATE_BY"
+    changeset={
+      '[{"key":"prototyped_idea","value":"{{ JSON.parse(generate_prototype.data) }}"}]'
+    }
+    editorMode="gui"
+    filterBy={
+      '[{"key":"project_id","value":"{{ url.searchParams.id }}","operation":"="}]'
+    }
+    isMultiplayerEdited={false}
+    notificationDuration={4.5}
+    resourceDisplayName="retool_db"
+    resourceName="aebd75d3-d8bf-47c0-a412-b754418b3823"
+    runWhenModelUpdates={false}
+    showSuccessToaster={false}
+    showUpdateSetValueDynamicallyToggle={false}
+    tableName="ideation_ideas"
+    updateSetValueDynamically={true}
+  >
+    <Event
+      id="2e9b0aaa"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="get_ideas"
+      type="datasource"
+      waitMs="0"
+      waitType="debounce"
+    />
+    <Event
+      id="a73f0ae8"
+      event="success"
+      method="setCurrentViewIndex"
+      params={{ map: { viewIndex: "6" } }}
+      pluginId="steppedContainer1"
+      type="widget"
+      waitMs="0"
+      waitType="debounce"
+    />
+  </SqlQueryUnified>
+  <RetoolAIQuery
+    id="generate_image"
+    action="imageGeneration"
+    defaultModelInitialized={true}
+    imageModel="gpt-image-1.5"
+    instruction="Generate an image for this General Mills project: {{ get_project.data.name[0] }} - {{ get_project.data.description[0] }}
+Here is the prototype that should e created: {{ listbox4.value }}"
+    isMultiplayerEdited={false}
+    resourceDisplayName="retool_ai"
+    resourceName="retool_ai"
+  >
+    <Event
+      id="60d26458"
+      event="success"
+      method="trigger"
+      params={{}}
+      pluginId="upload_artifact"
+      type="datasource"
+      waitMs="1000"
+      waitType="debounce"
+    />
+  </RetoolAIQuery>
+  <RetoolStorageQuery
+    id="upload_artifact"
+    actionType="upload"
+    data="{{ generate_image.data }}"
+    fileName="{{ get_project.data.name[0] }}_image.png"
+    folderName="{{ url.searchParams.id }}"
+    resourceDisplayName="retool_storage"
+    resourceName="retool_storage"
+    runWhenModelUpdates={false}
+    selectFolderNameBy="programmatic"
+    uploadBy="programmatic"
+  />
+  <Include src="./modalFrame2.rsx" />
+  <Frame
+    id="$main2"
+    enableFullBleed={false}
+    isHiddenOnDesktop={false}
+    isHiddenOnMobile={false}
+    padding="8px 12px"
+    sticky={null}
+    type="main"
+  >
+    <Include src="./steppedContainer1.rsx" />
+  </Frame>
+</Screen>

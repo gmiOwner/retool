@@ -1,0 +1,1 @@
+select * from ideation_problem_reframes where project_id = {{ url.searchParams.id }}

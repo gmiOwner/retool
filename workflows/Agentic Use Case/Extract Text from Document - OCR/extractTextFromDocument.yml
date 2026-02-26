@@ -1,0 +1,112 @@
+id: extractTextFromDocument
+type: datasource
+subtype: RESTQuery
+resourceName: 64976770-ba32-4bbb-8ca5-431fd7922d30
+resourceDisplayName: Google Vision API
+template:
+  queryRefreshTime: ''
+  paginationLimit: ''
+  allowedGroupIds: []
+  openAPIRequestBody: ''
+  streamResponse: false
+  body: |-
+    {
+      "requests": [
+        {
+          "inputConfig": {
+            "content": {{ getDocument.data.base64Data }},
+            "mimeType": {{ getDocument.data.type }}
+          },
+          "features": [
+            { "type": "DOCUMENT_TEXT_DETECTION" }
+          ]
+        }
+      ]
+    }
+  lastReceivedFromResourceAt: null
+  isFunction: false
+  functionParameters: null
+  queryDisabledMessage: ''
+  servedFromCache: false
+  offlineUserQueryInputs: ''
+  functionDescription: null
+  successMessage: ''
+  queryDisabled: ''
+  playgroundQuerySaveId: latest
+  workflowParams: null
+  resourceNameOverride: ''
+  runWhenModelUpdates: false
+  paginationPaginationField: ''
+  workflowRunExecutionType: sync
+  headers: ''
+  showFailureToaster: true
+  paginationEnabled: false
+  query: files:annotate
+  playgroundQueryUuid: ''
+  playgroundQueryId: null
+  error: null
+  workflowRunBodyType: raw
+  privateParams: []
+  queryRunOnSelectorUpdate: false
+  runWhenPageLoadsDelay: ''
+  data: null
+  importedQueryInputs: {}
+  isImported: false
+  showSuccessToaster: true
+  cacheKeyTtl: ''
+  requestSentTimestamp: null
+  cookies: ''
+  metadata: null
+  queryRunTime: null
+  changesetObject: ''
+  offlineOptimisticResponse: null
+  errorTransformer: return data.error
+  finished: null
+  confirmationMessage: null
+  isFetching: false
+  changeset: ''
+  rawData: null
+  queryTriggerDelay: '0'
+  resourceTypeOverride: null
+  watchedParams: []
+  enableErrorTransformer: false
+  showLatestVersionUpdatedWarning: false
+  paginationDataField: ''
+  timestamp: 0
+  openAPIParams: '{}'
+  evalType: script
+  importedQueryDefaults: {}
+  enableTransformer: false
+  showUpdateSetValueDynamicallyToggle: true
+  version: 2
+  overrideOrgCacheForUserCache: false
+  runWhenPageLoads: false
+  transformer: return data
+  events: []
+  queryTimeout: '10000'
+  workflowId: null
+  requireConfirmation: false
+  type: POST
+  queryFailureConditions: ''
+  changesetIsObject: false
+  enableCaching: false
+  allowedGroups: []
+  bodyType: raw
+  offlineQueryType: None
+  queryThrottleTime: '750'
+  updateSetValueDynamically: false
+  notificationDuration: ''
+createdAt: 2026-02-14T22:43:54.502Z
+blockData:
+  top: 48
+  left: 1264
+  uuid: 7809662c-9995-4120-ab71-a40efbeec1ec
+  pluginId: extractTextFromDocument
+  blockType: default
+  dimensions:
+    width: 464
+    height: 192
+  editorType: RESTQuery
+  resourceName: 64976770-ba32-4bbb-8ca5-431fd7922d30
+  incomingOnSuccessEdges:
+    - 67be3f5d-50c1-45b9-8ec8-b2bd854bd9f3

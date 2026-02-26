@@ -1,0 +1,65 @@
+{
+  "avatar1": {
+    "subcontainer": "header",
+    "row": 0.4,
+    "col": 10,
+    "height": 0.2,
+    "width": 2
+  },
+  "group1": {
+    "subcontainer": "header",
+    "height": 3.8,
+    "width": 4
+  },
+  "image1": {
+    "type": "stack",
+    "container": "group1",
+    "subcontainer": "00030",
+    "row": 3.8,
+    "height": 1.8,
+    "width": 1,
+    "stackPosition": {
+      "object": {
+        "ordinal": 0,
+        "widthType": "fixed",
+        "width": 50,
+        "height": 70
+      }
+    }
+  },
+  "navigation1": {
+    "subcontainer": "header",
+    "col": 4,
+    "height": 1,
+    "width": 6
+  },
+  "spacer1": {
+    "subcontainer": "header",
+    "col": 10,
+    "height": 0.4,
+    "width": 2
+  },
+  "spacer2": {
+    "subcontainer": "header",
+    "row": 0.6,
+    "col": 10,
+    "height": 0.4,
+    "width": 2
+  },
+  "text1": {
+    "type": "stack",
+    "container": "group1",
+    "subcontainer": "00030",
+    "row": 3.8,
+    "col": 1,
+    "height": 0.6,
+    "stackPosition": {
+      "object": {
+        "ordinal": 1,
+        "widthType": "fixed",
+        "width": 211.75,
+        "height": 24
+      }
+    }
+  }
+}

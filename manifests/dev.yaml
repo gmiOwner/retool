@@ -1,2 +1,8 @@
 version: 1.0.0
 name: dev
+apps:
+  - uuid: 0548040a-06a6-11f1-8b46-5f5cc1bb387a
+    release: latest
+workflows:
+  - uuid: 32c3311f-cbf3-4344-b7d5-026ed93bb52e
+    release: latest

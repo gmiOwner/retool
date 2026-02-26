@@ -1,0 +1,151 @@
+id: simplifyOutput
+type: datasource
+subtype: JavascriptQuery
+resourceName: JavascriptQuery
+template:
+  queryRefreshTime: ''
+  allowedGroupIds: []
+  streamResponse: false
+  lastReceivedFromResourceAt: null
+  isFunction: false
+  functionParameters: null
+  queryDisabledMessage: ''
+  servedFromCache: false
+  offlineUserQueryInputs: ''
+  functionDescription: null
+  successMessage: ''
+  queryDisabled: ''
+  playgroundQuerySaveId: latest
+  workflowParams: null
+  resourceNameOverride: ''
+  runWhenModelUpdates: false
+  workflowRunExecutionType: sync
+  showFailureToaster: true
+  query: |
+    /**
+     * Extract a simplified plain-text string from Google Vision files:annotate output.
+     * Works with nested shapes like:
+     *  - { data: { responses: [ { responses: [ { fullTextAnnotation: { text } } ] } ] } }
+     *  - { responses: [ { fullTextAnnotation: { text } } ] }
+     *  - { responses: [ { responses: [ ...per-page... ] } ] }
+     */
+    function simplifyVisionFilesAnnotate(input) {
+      // Normalize: sometimes you pass the whole Retool response, sometimes just JSON body.
+      const root = input?.data ? input.data : input;
+
+      // Collect page texts from anywhere they might appear.
+      const pageTexts = [];
+
+      // Helper to push text if present.
+      const pushText = (t) => {
+        if (typeof t === "string") {
+          const cleaned = cleanText(t);
+          if (cleaned) pageTexts.push(cleaned);
+        }
+      };
+
+      // Helper to inspect one "response object"
+      const inspectResponseObj = (r) => {
+        if (!r || typeof r !== "object") return;
+
+        // 1) Preferred: fullTextAnnotation.text
+        pushText(r?.fullTextAnnotation?.text);
+
+        // 2) Fallback some Vision responses: textAnnotations[0].description
+        pushText(r?.textAnnotations?.[0]?.description);
+
+        // 3) Your exact structure: r.responses is an array of per-page responses
+        if (Array.isArray(r.responses)) {
+          r.responses.forEach(inspectResponseObj);
+        }
+      };
+
+      // Top-level can be { responses: [...] }
+      if (Array.isArray(root?.responses)) {
+        root.responses.forEach(inspectResponseObj);
+      } else {
+        // Or directly a response object
+        inspectResponseObj(root);
+      }
+
+      // Combine pages with a blank line between pages for readability
+      const combined = cleanText(pageTexts.join("\n\n"));
+      return combined;
+    }
+
+    /** Clean and simplify whitespace but keep readable newlines. */
+    function cleanText(s) {
+      if (!s) return "";
+      return String(s)
+        .replace(/\r/g, "")
+        .replace(/[ \t]+\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .replace(/[ \t]{2,}/g, " ")
+        .replace(/\u00A0/g, " ")
+        .trim();
+    }
+
+    return simplifyVisionFilesAnnotate(extractTextFromDocument.data);
+  playgroundQueryUuid: ''
+  playgroundQueryId: null
+  error: null
+  workflowRunBodyType: raw
+  privateParams: []
+  queryRunOnSelectorUpdate: false
+  runWhenPageLoadsDelay: ''
+  data: null
+  importedQueryInputs: {}
+  _additionalScope: []
+  isImported: false
+  showSuccessToaster: true
+  cacheKeyTtl: ''
+  requestSentTimestamp: null
+  metadata: null
+  queryRunTime: null
+  changesetObject: ''
+  offlineOptimisticResponse: null
+  errorTransformer: return data.error
+  finished: null
+  confirmationMessage: null
+  isFetching: false
+  changeset: ''
+  rawData: null
+  queryTriggerDelay: '0'
+  resourceTypeOverride: null
+  watchedParams: []
+  enableErrorTransformer: false
+  showLatestVersionUpdatedWarning: false
+  timestamp: 0
+  evalType: script
+  importedQueryDefaults: {}
+  enableTransformer: false
+  showUpdateSetValueDynamicallyToggle: true
+  overrideOrgCacheForUserCache: false
+  runWhenPageLoads: false
+  transformer: return data
+  events: []
+  queryTimeout: '10000'
+  workflowId: null
+  requireConfirmation: false
+  queryFailureConditions: ''
+  changesetIsObject: false
+  enableCaching: false
+  allowedGroups: []
+  offlineQueryType: None
+  queryThrottleTime: '750'
+  updateSetValueDynamically: false
+  notificationDuration: ''
+createdAt: 2026-02-15T22:34:27.261Z
+blockData:
+  top: 48
+  left: 1904
+  uuid: ac6b7d71-7c2a-46ef-a4fd-f07f3d335bbb
+  pluginId: simplifyOutput
+  blockType: code
+  dimensions:
+    width: 384
+    height: 544
+  editorType: JavascriptQuery
+  resourceName: JavascriptQuery
+  incomingOnSuccessEdges:
+    - 7809662c-9995-4120-ab71-a40efbeec1ec
