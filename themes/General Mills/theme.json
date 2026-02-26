@@ -1,0 +1,160 @@
+{
+  "name": "General Mills",
+  "theme": {
+    "_migrated": true,
+    "automatic": [
+      "#fde68a",
+      "#eecff3",
+      "#a7f3d0",
+      "#bfdbfe",
+      "#c7d2fe",
+      "#fecaca",
+      "#fcd6bb"
+    ],
+    "borderRadius": "4px",
+    "canvas": "#FFFFFF",
+    "danger": "#dc2626",
+    "defaultFont": {
+      "fontWeight": "400",
+      "size": "12px"
+    },
+    "defaultFontId": "a6d65d94",
+    "fontIds": [
+      "a6d65d94"
+    ],
+    "fontMap": {
+      "a6d65d94": {
+        "fontWeights": [
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900"
+        ],
+        "name": "Montserrat",
+        "source": "https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+      }
+    },
+    "h1Font": {
+      "fontWeight": "700",
+      "size": "36px"
+    },
+    "h2Font": {
+      "fontWeight": "700",
+      "size": "28px"
+    },
+    "h3Font": {
+      "fontWeight": "700",
+      "size": "24px"
+    },
+    "h4Font": {
+      "fontWeight": "700",
+      "size": "18px"
+    },
+    "h5Font": {
+      "fontWeight": "700",
+      "size": "16px"
+    },
+    "h6Font": {
+      "fontWeight": "700",
+      "size": "14px"
+    },
+    "highlight": "#fde68a",
+    "info": "#3170f9",
+    "labelEmphasizedFont": {
+      "fontWeight": "600",
+      "size": "12px"
+    },
+    "labelFont": {
+      "fontWeight": "500",
+      "size": "12px"
+    },
+    "modeIds": [
+      "cd15600e"
+    ],
+    "modeMap": {
+      "cd15600e": {
+        "id": "cd15600e",
+        "label": "Light",
+        "theme": {
+          "automatic": [
+            "#0054a9",
+            "#1d265e",
+            "#4fc0e8",
+            "#0054a9",
+            "#d7e5ed",
+            "#1e265e",
+            "#e32227"
+          ],
+          "borderRadius": "8px",
+          "canvas": "#f5f5f5",
+          "danger": "#c62828",
+          "highlight": "#ffd200",
+          "info": "#0055a4",
+          "success": "#2e7d32",
+          "surfacePrimary": "#ffffff",
+          "surfacePrimaryBorder": "#d0d4db",
+          "surfaceSecondaryBorder": "#d0d4db",
+          "textDark": "#272728",
+          "warning": "#f9a825"
+        },
+        "tokenValues": {
+          "81078891": {
+            "fontWeight": "400",
+            "size": "12px",
+            "type": "typographyToken"
+          },
+          "1f19a004": {
+            "type": "colorToken",
+            "value": "#1e265e"
+          },
+          "9447f65c": {
+            "type": "colorToken",
+            "value": "#0173c5"
+          }
+        }
+      }
+    },
+    "primary": "rgb(6, 85, 162)",
+    "secondary": "",
+    "success": "#059669",
+    "surfacePrimary": "#ffffff",
+    "surfacePrimaryBorder": "",
+    "surfaceSecondary": "#ffffff",
+    "surfaceSecondaryBorder": "",
+    "tertiary": "",
+    "textDark": "#0d0d0d",
+    "textLight": "#ffffff",
+    "tokens": [
+      {
+        "id": "1f19a004",
+        "type": "colorToken",
+        "label": "Primary Dark",
+        "value": "#FFFFFF"
+      },
+      {
+        "id": "9447f65c",
+        "type": "colorToken",
+        "label": "Secondary",
+        "value": "#FFFFFF"
+      }
+    ],
+    "variants": {
+      "TableWidget2": {
+        "styles": {
+          "accent": "tokens/9447f65c",
+          "background": "surfacePrimary",
+          "borderRadius": "8px",
+          "headerBackground": "tokens/1f19a004"
+        }
+      }
+    },
+    "warning": "#cd6f00"
+  },
+  "type": null,
+  "version": "1.0.0"
+}
