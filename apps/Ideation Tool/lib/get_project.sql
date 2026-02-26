@@ -1,0 +1,1 @@
+select * from ideation_project_list where id = {{ url.searchParams.id }}

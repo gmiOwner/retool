@@ -1,0 +1,3 @@
+{
+  fileId: {{ get_files.data[0].id }}
+}

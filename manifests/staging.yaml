@@ -1,5 +1,10 @@
 version: 1.0.0
 name: staging
 apps:
+  - uuid: 0548040a-06a6-11f1-8b46-5f5cc1bb387a
+    release: latest
   - uuid: 0dc7be62-ff04-11f0-bd6b-57f4a723ae03
     release: 0.1.0
+workflows:
+  - uuid: 32c3311f-cbf3-4344-b7d5-026ed93bb52e
+    release: latest
