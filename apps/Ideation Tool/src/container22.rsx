@@ -13,6 +13,46 @@
   }}
 >
   <Header>
+    <Button id="button16" iconBefore="bold/interface-add-square-alternate">
+      <Event
+        id="fde3ec59"
+        event="click"
+        method="showNotification"
+        params={{
+          map: {
+            options: {
+              notificationType: "success",
+              title: "Successfully Selected Problem Statement",
+              description: "",
+            },
+          },
+        }}
+        pluginId=""
+        type="util"
+        waitMs="0"
+        waitType="debounce"
+      />
+      <Event
+        id="ba4eefb7"
+        event="click"
+        method="setValue"
+        params={{ map: { value: "{{ item.problem_statement }}" } }}
+        pluginId="selected_reframe"
+        type="state"
+        waitMs="0"
+        waitType="debounce"
+      />
+      <Event
+        id="21612203"
+        event="click"
+        method="setCurrentViewIndex"
+        params={{ map: { viewIndex: "2" } }}
+        pluginId="steppedContainer1"
+        type="widget"
+        waitMs="0"
+        waitType="debounce"
+      />
+    </Button>
     <TextArea
       id="textArea3"
       autoResize={true}
@@ -74,46 +114,6 @@
         </Icon>
       </View>
     </Container>
-    <Button id="button16" iconBefore="bold/interface-add-square-alternate">
-      <Event
-        id="fde3ec59"
-        event="click"
-        method="showNotification"
-        params={{
-          map: {
-            options: {
-              notificationType: "success",
-              title: "Successfully Selected Problem Statement",
-              description: "",
-            },
-          },
-        }}
-        pluginId=""
-        type="util"
-        waitMs="0"
-        waitType="debounce"
-      />
-      <Event
-        id="ba4eefb7"
-        event="click"
-        method="setValue"
-        params={{ map: { value: "{{ item.problem_statement }}" } }}
-        pluginId="selected_reframe"
-        type="state"
-        waitMs="0"
-        waitType="debounce"
-      />
-      <Event
-        id="21612203"
-        event="click"
-        method="setCurrentViewIndex"
-        params={{ map: { viewIndex: "2" } }}
-        pluginId="steppedContainer1"
-        type="widget"
-        waitMs="0"
-        waitType="debounce"
-      />
-    </Button>
   </Header>
   <View id="00030" viewKey="View 1">
     <Text

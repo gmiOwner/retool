@@ -114,6 +114,7 @@
       value="Create and manage ideation sessions"
       verticalAlign="center"
     />
+    <Button id="button17" text="Button" />
     <Button
       id="button1"
       hidden="{{ current_user.groups.includes('admin') }}"

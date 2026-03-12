@@ -258,7 +258,6 @@
   },
   "container22": {
     "container": "listView7",
-    "row": 0,
     "height": 1,
     "width": 12,
     "stackPosition": {
@@ -1237,7 +1236,6 @@
   "statistic4": {
     "container": "container17",
     "subcontainer": "00030",
-    "row": 0,
     "col": 8,
     "height": 0.8,
     "width": 4,
@@ -1837,7 +1835,6 @@
   "text56": {
     "container": "container11",
     "subcontainer": "00030",
-    "row": 0,
     "col": 1,
     "height": 0.6,
     "width": 11,
@@ -1869,7 +1866,6 @@
   "text59": {
     "container": "container22",
     "subcontainer": "00030",
-    "row": 0,
     "height": 0.6,
     "width": 12,
     "stackPosition": {

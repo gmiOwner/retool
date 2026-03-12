@@ -607,23 +607,6 @@
       </Header>
       <View id="00030" viewKey="View 1">
         <Statistic
-          id="statistic4"
-          align="center"
-          currency="USD"
-          formattingStyle="percent"
-          label="Avg. Goal Match"
-          positiveTrend="{{ self.value >= 0 }}"
-          secondaryCurrency="USD"
-          secondaryEnableTrend={true}
-          secondaryFormattingStyle="percent"
-          secondaryPositiveTrend="{{ self.secondaryValue >= 0 }}"
-          secondaryShowSeparators={true}
-          secondarySignDisplay="trendArrows"
-          secondaryValue=""
-          showSeparators={true}
-          value=".82"
-        />
-        <Statistic
           id="statistic2"
           align="center"
           currency="USD"
@@ -654,6 +637,23 @@
           secondaryValue=""
           showSeparators={true}
           value="2"
+        />
+        <Statistic
+          id="statistic4"
+          align="center"
+          currency="USD"
+          formattingStyle="percent"
+          label="Avg. Goal Match"
+          positiveTrend="{{ self.value >= 0 }}"
+          secondaryCurrency="USD"
+          secondaryEnableTrend={true}
+          secondaryFormattingStyle="percent"
+          secondaryPositiveTrend="{{ self.secondaryValue >= 0 }}"
+          secondaryShowSeparators={true}
+          secondarySignDisplay="trendArrows"
+          secondaryValue=""
+          showSeparators={true}
+          value=".82"
         />
       </View>
     </Container>
