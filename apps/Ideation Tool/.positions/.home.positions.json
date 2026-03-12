@@ -11,6 +11,12 @@
     "col": 9,
     "height": 1
   },
+  "button17": {
+    "row": 0.8,
+    "col": 8,
+    "height": 1,
+    "width": 2
+  },
   "button2": {
     "container": "container1",
     "subcontainer": "00030",
